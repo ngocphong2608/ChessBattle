@@ -285,7 +285,7 @@ public class BoardManager : MonoBehaviour
         {
             if (chessMate != null)
             {
-                BoardHighlights.Instance.HideKillerHighlight();
+                BoardHighlights.Instance.HideCheckedHighlight();
                 chessMate.HidePowerEffect();
                 chessMate = null;
             }
@@ -297,15 +297,16 @@ public class BoardManager : MonoBehaviour
             ProcessEnPassantMove(c, x, y, out delays);
 
             // Eat chessman
+            bool isEatChess = false;
             if (c != null && c.isWhite != isWhiteTurn)
             {
                 delays = DELAY_TIME;
                 c.RotateEach(ROTATE_TIME);
                 c.DestroyAfter(delays);
+                
                 BoardHighlights.Instance.ShowKillerHighlight(new Vector3(x + 0.5f, 0, y + 0.5f));
                 BoardHighlights.Instance.HideKillerHighlightAfter(delays);
-
-                selectedChessman.PlayPowerEffectFor(delays);
+                isEatChess = true;
 
                 if (c.GetType() == typeof(King))
                 {
@@ -323,6 +324,10 @@ public class BoardManager : MonoBehaviour
             MoveSelectedChessmanTo(x, y, delays);
 
             // Checkmate
+            if (!IsCheckmate(Chessmans[x, y].PossibleMove()) && isEatChess)
+            {
+                selectedChessman.PlayPowerEffectFor(DELAY_TIME);
+            }
             ProcessCheckmate(x, y);
 
             // Change turn
@@ -387,8 +392,7 @@ public class BoardManager : MonoBehaviour
         if (IsCheckmate(allowedMoves))
         {
             Chessman kingPos = GetKingPos(!isWhiteTurn);
-            BoardHighlights.Instance.ShowKillerHighlight(new Vector3(kingPos.CurrentX + 0.5f, 0, kingPos.CurrentY + 0.5f));
-            //BoardHighlights.Instance.HideKillerHighlightAfter(2.0f);
+            BoardHighlights.Instance.ShowCheckedHighlight(new Vector3(kingPos.CurrentX + 0.5f, 0, kingPos.CurrentY + 0.5f));
             selectedChessman.ShowPowerEffect();
             chessMate = selectedChessman;
             OnChecked();

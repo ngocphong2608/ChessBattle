@@ -11,7 +11,7 @@ public abstract class Chessman : MonoBehaviour {
 
     private Quaternion originRotation;
     private float speed = 1f;
-    private float incSpeed = 0.5f;
+    private float incSpeed = 1.0f;
 
     private Animator anim;
 

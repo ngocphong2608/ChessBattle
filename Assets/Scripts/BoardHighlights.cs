@@ -16,6 +16,7 @@ public class BoardHighlights : MonoBehaviour {
     private GameObject selectedHighlight;
     private GameObject hoverHighlight;
     private GameObject killerHighlight;
+    private GameObject checkedHighlight;
 
     private void Start()
     {
@@ -31,6 +32,9 @@ public class BoardHighlights : MonoBehaviour {
 
         killerHighlight = Instantiate(killerHighlighPrefab);
         killerHighlight.SetActive(false);
+
+        checkedHighlight = Instantiate(killerHighlighPrefab);
+        checkedHighlight.SetActive(false);
     }
 
     public GameObject GetHighlightObject()
@@ -102,5 +106,16 @@ public class BoardHighlights : MonoBehaviour {
     public void HideKillerHighlight()
     {
         killerHighlight.SetActive(false);
+    }
+
+    public void ShowCheckedHighlight(Vector3 pos)
+    {
+        checkedHighlight.transform.position = pos;
+        checkedHighlight.SetActive(true);
+    }
+
+    public void HideCheckedHighlight()
+    {
+        checkedHighlight.SetActive(false);
     }
 }

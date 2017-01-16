@@ -36,6 +36,7 @@ public class BoardManager : MonoBehaviour
         EnPassantMove = new int[2] { -1, -1 };
         SpawnAllChessmans();
         ShowPowerEffectAllChessmans();
+        GameObject.Find("MainGameManager").GetComponent<MainGameManager>().HideWinText();
     }
 
     private void ShowPowerEffectAllChessmans()
@@ -487,9 +488,9 @@ public class BoardManager : MonoBehaviour
     private void EndGame()
     {
         if (isWhiteTurn)
-            Debug.Log("White team win");
+            GameObject.Find("MainGameManager").GetComponent<MainGameManager>().EndGame(1);
         else
-            Debug.Log("Black team win");
+            GameObject.Find("MainGameManager").GetComponent<MainGameManager>().EndGame(-1);
 
         foreach (GameObject go in activeChessmans)
         {

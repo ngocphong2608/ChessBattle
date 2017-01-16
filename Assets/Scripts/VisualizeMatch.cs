@@ -75,6 +75,7 @@ public class VisualizeMatch : MonoBehaviour {
             Debug.Log("End of game!");
             Debug.Log("Result: " + result);
             gameManager.isVisualize = false;
+            gameManager.EndGame(result);
             return;
         }
         Move(step % 2, data[step]);

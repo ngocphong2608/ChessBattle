@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainGameManager : MonoBehaviour {
     VisualizeMatch visualize;
@@ -15,9 +16,16 @@ public class MainGameManager : MonoBehaviour {
     float commandDelayOld = 0f;
 
     public Animator checkedAnimator;
+    public GameObject winText;
 
     // Use this for initialization
     void Start () {
+        winText.SetActive(false);
+    }
+
+    public void HideWinText()
+    {
+        winText.SetActive(false);
     }
 
     public void PlayGame()
@@ -88,6 +96,23 @@ public class MainGameManager : MonoBehaviour {
     public void QueenSideCastling(int turn)
     {
         BoardManager.Instance.QueenSideCastling(turn);
+    }
+
+    internal void EndGame(int result)
+    {
+        Text text = winText.GetComponent<Text>();
+        winText.SetActive(true);
+        if (result == 1)
+        {
+            text.text = "White win!";
+        } else if (result == 0)
+        {
+            text.text = "Tie!";
+        }
+        else
+        {
+            text.text = "Black win!";
+        }
     }
 
     public Location Find(int turn, char c, Location dst, string disam)
